@@ -52,7 +52,7 @@ staffing, and patient care.
 ```
 patients ──< admissions
 patients ──< billing
-admissions >── billing
+admissions ──< billing
 ```
 
 **3 Tables | 55,500 Records | 10+ Business Queries**
@@ -82,9 +82,10 @@ admissions >── billing
 ```
 hospital-sql-analysis/
 ├── data/
-│   └── raw/                      ← Original CSV (not committed to GitHub)
+│   └── raw/                     ← Original CSV (not committed to GitHub)
+|   |__ cleaned/                  ← Cleaned CSV (not committed to GitHub)
 ├── sql/
-│   └── analysis_queries.sql      ← All 10+ business analysis queries
+│   └── analysis.sql      ← All business analysis queries
 ├── python/
 │   └── clean_and_load.py         ← Data cleaning + MySQL loading script
 ├── screenshots/                  ← Query output screenshots
@@ -96,7 +97,7 @@ hospital-sql-analysis/
 │   ├── 06_running_total.png
 │   ├── 07_top_doctors.png
 │   └── 08_stored_procedure.png
-├── .env.example                  ← Environment variable template
+├── .env                ← Environment variable template
 ├── .gitignore                    ← Ignores .env and raw data
 ├── insights_report.md            ← Written business findings
 └── README.md
@@ -112,7 +113,7 @@ hospital-sql-analysis/
 
 ### Step 2 — Set Up Environment Variables
 ```bash
-cp .env.example .env
+cp .env
 # Edit .env and fill in your MySQL credentials
 ```
 
@@ -135,7 +136,7 @@ python clean_and_load.py
 This will clean all 55,500 records, create 3 relational tables, and load everything into MySQL automatically.
 
 ### Step 6 — Run the Analysis
-Open `sql/analysis_queries.sql` in MySQL Workbench and run queries section by section.
+Open `sql/analysis.sql` in MySQL Workbench and run queries section by section.
 
 ---
 
@@ -179,5 +180,5 @@ With Arthritis, Diabetes, and Hypertension as the top 3 conditions, targeted car
 **Kiran U** — Aspiring Data Analyst | BCA Graduate | PGP Data Science (GenAI)
 
 - 📧 kirankiranu791@gmail.com
-- 💼 [LinkedIn](your-linkedin-url)
+- 💼 [LinkedIn](https://www.linkedin.com/in/kiran-u-471818325/)
 - 🐙 [GitHub](https://github.com/KIRAN4003)
