@@ -1,0 +1,13 @@
+# Never push these to GitHub
+.env
+*.env
+
+# Never push raw data (too large)
+data/raw/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Cleaned data (optional — large file)
+data/cleaned/
