@@ -83,7 +83,6 @@ admissions ──< billing
 hospital-sql-analysis/
 ├── data/
 │   └── raw/                     ← Original CSV (not committed to GitHub)
-|   |__ cleaned/                  ← Cleaned CSV (not committed to GitHub)
 ├── sql/
 │   └── analysis.sql      ← All business analysis queries
 ├── python/
@@ -113,7 +112,7 @@ hospital-sql-analysis/
 
 ### Step 2 — Set Up Environment Variables
 ```bash
-cp .env
+cp .env.example  ← Environment variable 
 # Edit .env and fill in your MySQL credentials
 ```
 
@@ -136,7 +135,7 @@ python clean_and_load.py
 This will clean all 55,500 records, create 3 relational tables, and load everything into MySQL automatically.
 
 ### Step 6 — Run the Analysis
-Open `sql/analysis.sql` in MySQL Workbench and run queries section by section.
+Open `sql/analysis_queries.sql` in MySQL Workbench and run queries section by section.
 
 ---
 
