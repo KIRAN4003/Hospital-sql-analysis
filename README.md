@@ -2,17 +2,21 @@
 
 ![SQL](https://img.shields.io/badge/SQL-MySQL-blue)
 ![Python](https://img.shields.io/badge/Python-Pandas-green)
+![Records](https://img.shields.io/badge/Records-55%2C500-orange)
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
+
+---
 
 ## 📌 Project Overview
 
 A mid-sized hospital generates thousands of records daily — patient admissions,
-doctor assignments, billing transactions, and appointments. Without structured
-analysis, critical operational inefficiencies go unnoticed.
+doctor assignments, and billing transactions. Without structured analysis,
+critical operational inefficiencies go unnoticed and revenue opportunities are missed.
 
-This project builds a **relational database from scratch** and answers **20+
-real business questions** using advanced SQL — helping hospital management
-reduce costs, improve patient flow, and minimise appointment no-shows.
+This project builds a **3-table relational database from scratch**, loads **55,500
+real patient records**, and answers **10+ real business questions** using advanced
+SQL — helping hospital management make data-driven decisions on revenue,
+staffing, and patient care.
 
 ---
 
@@ -20,40 +24,44 @@ reduce costs, improve patient flow, and minimise appointment no-shows.
 
 | # | Business Question | SQL Technique Used |
 |---|---|---|
-| 1 | Which department has the highest patient load? | GROUP BY + RANK() |
-| 2 | What is peak admission season? | DATE functions + aggregation |
-| 3 | Which insurance provider generates most revenue? | JOIN + SUM |
-| 4 | Do SMS reminders actually reduce no-shows? | Conditional aggregation |
-| 5 | Which patients are readmitted most? | CTE + COUNT |
-| 6 | Month-over-month change in admissions? | LAG() window function |
-| 7 | Top 3 conditions per department? | ROW_NUMBER() + PARTITION BY |
-| 8 | Which doctor handles the most patients? | JOIN + GROUP BY |
+| 1 | Which medical condition has the highest patient volume? | GROUP BY + aggregation |
+| 2 | Which insurance provider generates the most revenue? | JOIN + SUM |
+| 3 | How is revenue trending year over year? | GROUP BY + ORDER BY |
+| 4 | Which age group has the most admissions? | JOIN + GROUP BY |
+| 5 | What is the running total revenue month by month? | CTE + SUM() OVER() |
+| 6 | Which doctors handle the most patients? | JOIN + GROUP BY + LIMIT |
+| 7 | How do admissions change month over month? | LAG() window function |
+| 8 | Which admission type generates most revenue? | JOIN + GROUP BY |
+| 9 | What is the monthly performance report for any year? | Stored Procedure |
+
+---
+
+## 📊 Key Insights Found
+
+- 🦴 **Arthritis** is the most prevalent condition with **9,308 cases** and average billing of **$25,497 per patient**
+- 💰 **Cigna** is the top revenue-generating insurance provider at **$287M** across **11,249 patients**
+- 📅 **April 2024** was the peak admission month with **946 admissions** generating **$23.5M** in revenue
+- 📈 Average patient billing is consistent across all conditions at **~$25,500**, indicating stable pricing
+- 👨‍⚕️ Top doctors each handle similar patient volumes, suggesting balanced workload distribution
+- 🏥 **Urgent, Elective and Emergency** admissions are evenly split across the dataset
 
 ---
 
 ## 🗄️ Database Schema
 
 ```
-departments ──< doctors ──< admissions >── patients
-                                 │
-                              billing
-appointments (standalone no-show analysis)
+patients ──< admissions
+patients ──< billing
+admissions >── billing
 ```
 
-**5 Tables | 6 Relationships | 20+ Queries**
+**3 Tables | 55,500 Records | 10+ Business Queries**
 
----
-
-## 📊 Key Insights Found
-
-> *(Update these with your actual query results)*
-
-- 🔴 **Cardiology and Oncology** account for **X%** of total hospital revenue
-- 📅 **November–January** shows a **X% spike** in respiratory admissions
-- 💊 Patients with **Diabetes** have the longest average stay at **X days**
-- 📱 SMS reminders **reduce no-show rate by X%** (from X% to X%)
-- 💰 **Insurance-based patients** have **X% higher** average billing than cash patients
-- 🔁 **X% of patients** are readmitted within the same year
+| Table | Description | Rows |
+|---|---|---|
+| patients | Demographics — name, age, gender, blood type | 55,500 |
+| admissions | Clinical — condition, doctor, stay duration, dates | 55,500 |
+| billing | Financial — insurance, billing amount, payment mode | 55,500 |
 
 ---
 
@@ -61,11 +69,11 @@ appointments (standalone no-show analysis)
 
 | Tool | Purpose |
 |---|---|
-| MySQL 8.0 | Database creation, querying |
-| MySQL Workbench | Query execution, ERD diagram |
-| Python (Pandas) | Data cleaning & preprocessing |
-| Jupyter Notebook | Exploratory data analysis |
-| Excel | Quick sanity checks |
+| MySQL 8.0 | Database creation and querying |
+| MySQL Workbench | Query execution and visualization |
+| Python 3.12 | Data cleaning and loading |
+| Pandas | Data manipulation and preprocessing |
+| SQLAlchemy + PyMySQL | Python to MySQL connection |
 
 ---
 
@@ -74,16 +82,23 @@ appointments (standalone no-show analysis)
 ```
 hospital-sql-analysis/
 ├── data/
-│   ├── raw/                        ← Original downloaded CSVs (not committed)
-│   └── cleaned/                    ← Cleaned CSVs ready for MySQL import
+│   └── raw/                      ← Original CSV (not committed to GitHub)
 ├── sql/
-│   ├── 01_schema.sql               ← Table creation scripts
-│   ├── 02_insert_data.sql          ← Data loading instructions
-│   └── 03_analysis.sql             ← All 20+ business analysis queries
+│   └── analysis_queries.sql      ← All 10+ business analysis queries
 ├── python/
-│   └── data_cleaning.py            ← Data cleaning script
-├── screenshots/                    ← Query output screenshots
-├── insights_report.md              ← Written business findings
+│   └── clean_and_load.py         ← Data cleaning + MySQL loading script
+├── screenshots/                  ← Query output screenshots
+│   ├── 01_table_verification.png
+│   ├── 02_medical_conditions.png
+│   ├── 03_insurance_revenue.png
+│   ├── 04_yearly_revenue.png
+│   ├── 05_age_group_analysis.png
+│   ├── 06_running_total.png
+│   ├── 07_top_doctors.png
+│   └── 08_stored_procedure.png
+├── .env.example                  ← Environment variable template
+├── .gitignore                    ← Ignores .env and raw data
+├── insights_report.md            ← Written business findings
 └── README.md
 ```
 
@@ -91,81 +106,78 @@ hospital-sql-analysis/
 
 ## 🚀 How to Run This Project
 
-### Step 1 — Get the Data
-Download these datasets from Kaggle:
-- [Healthcare Dataset](https://www.kaggle.com/datasets/prasad22/healthcare-dataset)
-- [Medical Appointments No-show](https://www.kaggle.com/datasets/wajahat1064/healthcare-appointment-dataset)
+### Step 1 — Download the Dataset
+- Go to [Kaggle — Healthcare Dataset](https://www.kaggle.com/datasets/prasad22/healthcare-dataset)
+- Download and place `healthcare_dataset.csv` in `data/raw/`
 
-Place CSVs in `data/raw/`
-
-### Step 2 — Clean the Data
+### Step 2 — Set Up Environment Variables
 ```bash
-cd python/
-pip install pandas numpy
-python data_cleaning.py
+cp .env.example .env
+# Edit .env and fill in your MySQL credentials
 ```
-Cleaned files will appear in `data/cleaned/`
 
-### Step 3 — Set Up MySQL Database
-Open **MySQL Workbench** and run in order:
+### Step 3 — Install Dependencies
+```bash
+pip install pandas sqlalchemy pymysql python-dotenv
+```
+
+### Step 4 — Create Database in MySQL Workbench
 ```sql
-SOURCE sql/01_schema.sql;   -- Creates all tables
-SOURCE sql/02_insert_data.sql;  -- Load your data
-SOURCE sql/03_analysis.sql;     -- Run all analysis
+CREATE DATABASE IF NOT EXISTS hospital_analytics;
 ```
 
-### Step 4 — Explore the Analysis
-All queries are in `sql/03_analysis.sql` organized into sections:
-- Section A: Basic Exploration
-- Section B: Department & Doctor Analysis
-- Section C: Revenue Analysis
-- Section D: Patient Stay Analysis
-- Section E: Medical Conditions
-- Section F: No-Show Analysis
-- Section G: Advanced (CTEs, Window Functions)
-- Section H: Stored Procedure
+### Step 5 — Run the Cleaning and Loading Script
+```bash
+cd python
+python clean_and_load.py
+```
+
+This will clean all 55,500 records, create 3 relational tables, and load everything into MySQL automatically.
+
+### Step 6 — Run the Analysis
+Open `sql/analysis_queries.sql` in MySQL Workbench and run queries section by section.
 
 ---
 
-## 📸 Screenshots
+## 📸 Query Output Screenshots
 
-*(Add screenshots of your query results here after running)*
-
-| Query | Screenshot |
+| Query | Result |
 |---|---|
-| Department Revenue Ranking | `screenshots/dept_revenue.png` |
-| Monthly Admission Trend | `screenshots/monthly_trend.png` |
-| No-show Rate by SMS | `screenshots/noshow_sms.png` |
-| Top Conditions per Dept | `screenshots/conditions.png` |
+| Table Verification | ![01](screenshots/01_table_verification.png) |
+| Medical Conditions | ![02](screenshots/02_medical_conditions.png) |
+| Insurance Revenue | ![03](screenshots/03_insurance_revenue.png) |
+| Yearly Revenue | ![04](screenshots/04_yearly_revenue.png) |
+| Age Group Analysis | ![05](screenshots/05_age_group_analysis.png) |
+| Running Total | ![06](screenshots/06_running_total.png) |
+| Top Doctors | ![07](screenshots/07_top_doctors.png) |
+| Stored Procedure | ![08](screenshots/08_stored_procedure.png) |
 
 ---
 
 ## 💡 Business Recommendations
 
-Based on the analysis, three key recommendations for hospital management:
+**1. Focus on Cigna & Medicare Partnerships**
+These two providers contribute over $572M in combined revenue. Strengthening these relationships through dedicated service agreements could stabilise hospital revenue significantly.
 
-1. **Automate SMS Reminders** — No-show rate drops significantly with SMS alerts,
-   particularly for patients in the 18–35 age group who show the highest no-show rates.
+**2. April Resource Planning**
+April consistently shows the highest admission volume. Pre-positioning additional staff and beds before April each year can reduce patient wait times during peak periods.
 
-2. **Optimise Cardiology & Oncology Staffing** — These departments carry the
-   highest patient load and generate the most revenue; understaffing here has
-   the biggest operational impact.
+**3. Condition-Specific Care Packages**
+With Arthritis, Diabetes, and Hypertension as the top 3 conditions, targeted care packages and preventive programmes for these conditions can reduce average length of stay and improve patient outcomes.
 
-3. **Seasonal Resource Planning** — Respiratory cases spike in winter months;
-   pre-emptive bed and staff allocation can reduce wait times by an estimated 20–30%.
+---
+
+## 📄 Dataset Credit
+
+- Healthcare Dataset — [Kaggle / prasad22](https://www.kaggle.com/datasets/prasad22/healthcare-dataset)
+- 55,500 synthetic patient records covering admissions, billing, and demographics
 
 ---
 
 ## 👤 Author
 
-**Kiran U**
+**Kiran U** — Aspiring Data Analyst | BCA Graduate | PGP Data Science (GenAI)
+
 - 📧 kirankiranu791@gmail.com
 - 💼 [LinkedIn](your-linkedin-url)
-- 🐙 [GitHub](your-github-url)
-
----
-
-## 📄 Dataset Credits
-
-- Healthcare Dataset — [Kaggle / prasad22](https://www.kaggle.com/datasets/prasad22/healthcare-dataset)
-- Medical Appointments — [Kaggle / wajahat1064](https://www.kaggle.com/datasets/wajahat1064/healthcare-appointment-dataset)
+- 🐙 [GitHub](https://github.com/KIRAN4003)
