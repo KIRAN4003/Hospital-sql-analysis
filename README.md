@@ -96,7 +96,7 @@ hospital-sql-analysis/
 │   ├── 06_running_total.png
 │   ├── 07_top_doctors.png
 │   └── 08_stored_procedure.png
-├── .env                ← Environment variable template
+├── .env.example               ← Environment variable template
 ├── .gitignore                    ← Ignores .env and raw data
 ├── insights_report.md            ← Written business findings
 └── README.md
