@@ -5,8 +5,10 @@
 > revenue patterns and staffing efficiency.**
 
 ---
-
 ## 📊 Tableau Dashboard
+🔗 [View Interactive Dashboard](your tableau public link)
+![Dashboard](screenshots/tableau_dashboard.png)
+## 📌 Project Overview
 
 ![Dashboard](screenshots/tableau_dashboard.png)
 
