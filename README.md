@@ -6,7 +6,9 @@
 ![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 ---
-
+## 📊 Tableau Dashboard
+🔗 [View Interactive Dashboard](your tableau public link)
+![Dashboard](screenshots/tableau_dashboard.png)
 ## 📌 Project Overview
 
 A mid-sized hospital generates thousands of records daily — patient admissions,
