@@ -8,12 +8,7 @@
 ## 📊 Tableau Dashboard
 🔗 [View Interactive Dashboard](your tableau public link)
 ![Dashboard](screenshots/tableau_dashboard.png)
-## 📌 Project Overview
-
-![Dashboard](screenshots/tableau_dashboard.png)
-
 ---
-
 ## 🎯 Business Problems Solved
 
 | # | Business Question | SQL Technique |
